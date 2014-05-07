@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en" ng-app="LIMO">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>LIBISnet</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-cookies.min.js"></script>
+    <script src="limo.js"></script>
+    <base href="http://limo.p.libis.be"/>
+    <style>
+        .text-truncate {
+            width: 60%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body there-is-more ng-controller="SelectController">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <img id="limo_logo" src="/primo_library/libweb/libis/images/limo.png" alt="Limo">
+        <span style="font-size:1.5em;">
+            &nbsp;&nbsp;&nbsp;Please select your institution
+            <span ng-if="view">({{view}})</span>
+        </span>
+    </div>
+    <div class="panel-body" style="overflow: scroll;height:100%;">
+
+        <div ng-if="storedInstitution" class="panel panel-default">
+            <div class="panel-heading">Last selected view:
+                <a href="/primo_library/libweb/action/search.do?vid={{storedInstitution.vid}}">
+                    {{storedInstitution.name}}
+                </a>
+            </div>
+            <div class="panel-body text-center ">
+                <a style='width:100%;line-height: 60px;'
+                   href="/primo_library/libweb/action/search.do?vid={{storedInstitution.vid}}"
+                   title="{{storedInstitution.name}}">
+                        <span>
+                            <img width='{{storedInstitution.width}}'
+                                 src="/primo_library/libweb/libis/{{storedInstitution.code}}/images/logo.png"
+                                 alt="{{storedInstitution.name}}"/>
+                        </span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- Table -->
+        <table ng-cloak class="table">
+            <thead>
+            <tr>
+                <th><img class='center-block' id="libisnet_logo"
+                         src="/primo_library/libweb/libis/LIBISnet/images/logo.png" alt="LIBISnet"/>
+                </th>
+                <th><img class='center-block' id="kuleuven_logo"
+                         src="https://stijl.kuleuven.be/associatie/images/logo_asso.png"
+                         alt="KUleuven/Associatie"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="width:50%;">
+                    <div class="list-group">
+                        <a class="list-group-item"
+                           ng-repeat="institution in institutions | filter:{display:true,group:'libisnet'} | orderBy:'name'"
+                           style='width:100%;line-height: 80px;'
+                           ng-click='storeInstitution()'
+                           href="/primo_library/libweb/action/search.do?vid={{institution.vid}}"
+                           title="{{institution.name}}">
+                                <span style="width: 30%">
+                                    <img width='{{institution.width}}'
+                                         src="/primo_library/libweb/libis/{{institution.code}}/images/logo.png"
+                                         alt="{{institution.name}}"/>
+                                </span>
+                            <span class="pull-right text-truncate">
+                                {{institution.name}}
+                            </span>
+                        </a>
+                    </div>
+                </td>
+                <td style="width:50%;">
+                    <div class="list-group">
+                        <a class="list-group-item"
+                           ng-repeat="institution in institutions | filter:{display:true,group:'kuleuven'} | orderBy:'name'"
+                           style='width:100%;line-height: 80px;'
+                           ng-click='storeInstitution()'
+                           href="/primo_library/libweb/action/search.do?vid={{institution.vid}}"
+                           title="{{institution.name}}">
+                                <span style="width: 30%">
+                                    <img width='{{institution.width}}'
+                                         src="/primo_library/libweb/libis/{{institution.code}}/images/logo.png"
+                                         alt="{{institution.name}}"/>
+                                </span>
+                                <span class="pull-right text-truncate">
+                                        {{institution.name}}
+                                </span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
