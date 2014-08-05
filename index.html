@@ -10,7 +10,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-cookies.min.js"></script>
     <script src="limo.js"></script>
-    <base href="http://limo.p.libis.be"/>
     <style>
         .text-truncate {
             width: 60%;
@@ -24,10 +23,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <img id="limo_logo" src="/primo_library/libweb/libis/images/limo.png" alt="Limo">
-        <span style="font-size:1.5em;">
-            &nbsp;&nbsp;&nbsp;Please select your institution
-            <span ng-if="view">({{view}})</span>
-        </span>
+        <span style="font-size:1.5em;">&nbsp;&nbsp;&nbsp;Please select your institution or campus<span ng-if="view">({{view}})</span></span>
     </div>
     <div class="panel-body" style="overflow: scroll;height:100%;">
 
@@ -41,16 +37,15 @@
                 <a style='width:100%;line-height: 60px;'
                    href="/primo_library/libweb/action/search.do?vid={{storedInstitution.vid}}"
                    title="{{storedInstitution.name}}">
-                        <span>
-                            <img width='{{storedInstitution.width}}'
-                                 src="/primo_library/libweb/libis/{{storedInstitution.code}}/images/logo.png"
-                                 alt="{{storedInstitution.name}}"/>
-                        </span>
+                                <span>
+                                    <img width='{{storedInstitution.width*2}}'
+                                         src="/primo_library/libweb/libis/{{storedInstitution.code}}/images/logo.png"
+                                         alt="{{storedInstitution.name}}"/>
+                                </span>
                 </a>
 
             </div>
         </div>
-
 
         <!-- Table -->
         <table ng-cloak class="table">
@@ -69,7 +64,7 @@
                 <td style="width:50%;">
                     <div class="list-group">
                         <a class="list-group-item"
-                           ng-repeat="institution in institutions | filter:{display:true,group:'libisnet'} | orderBy:'name'"
+                           ng-repeat="institution in institutions | filter:{display:true,group:'libisnet',inst_group:group_by} | orderBy:'name'"
                            style='width:100%;line-height: 80px;'
                            ng-click='storeInstitution()'
                            href="/primo_library/libweb/action/search.do?vid={{institution.vid}}"
@@ -88,7 +83,7 @@
                 <td style="width:50%;">
                     <div class="list-group">
                         <a class="list-group-item"
-                           ng-repeat="institution in institutions | filter:{display:true,group:'kuleuven'} | orderBy:'name'"
+                           ng-repeat="institution in institutions | filter:{display:true,group:'kuleuven',inst_group:group_by} | orderBy:'name'"
                            style='width:100%;line-height: 80px;'
                            ng-click='storeInstitution()'
                            href="/primo_library/libweb/action/search.do?vid={{institution.vid}}"
